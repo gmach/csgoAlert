@@ -24,7 +24,7 @@ const TO_MOBILENUMBER = '+61412746478';
     };
     firebase.initializeApp(FBCONFIG);
     var countSpinsSinceZero = 0;
-    const SPINS_ALERT_FREQ = 2;
+    const SPINS_ALERT_FREQ = 20;
     var database = firebase.database();
     var history = database.ref('/history');
     history.on('value', function(snapshot) {
