@@ -1,0 +1,16 @@
+{
+  "name": "csgoAlert",
+  "version": "1.0.0",
+  "description": "",
+  "main": "go.js",
+  "scripts": {
+    "go": "node ./go.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^1.11.0",
+    "Telstra_Messaging": "github:Telstra/MessagingAPI-SDK-node"
+  }
+}
