@@ -1,6 +1,8 @@
 const PUPPETEER = require('puppeteer');
 const SMS = require('./sms');
+const MOMENT_TIMEZONE = require('moment-timezone');
 const TO_MOBILENUMBER = '+61412746478';
+const CURRENT_TIMEZONE = 'Australia/Brisbane';
 
 (async () => {
 
@@ -12,8 +14,12 @@ const TO_MOBILENUMBER = '+61412746478';
   await page.exposeFunction('sms', text =>
     SMS(TO_MOBILENUMBER, text)
   );
+  await page.exposeFunction('currentTime', () => {
+    return MOMENT_TIMEZONE().tz(CURRENT_TIMEZONE).format('h:mm:ss a');
+  });
   await page.evaluate(() => {
     //debugger;
+    const SPINS_ALERT_FREQ = 10;
     const FBCONFIG = {
       apiKey: "AIzaSyBLm7YgDBKQm3DM3Thxo-mm0k5ZHkNLe4Q",
       authDomain: "csgochecker-efc38.firebaseapp.com",
@@ -24,9 +30,9 @@ const TO_MOBILENUMBER = '+61412746478';
     };
     firebase.initializeApp(FBCONFIG);
     var countSpinsSinceZero = 0;
-    const SPINS_ALERT_FREQ = 20;
     var database = firebase.database();
     var history = database.ref('/history');
+    database.ref('history').set(null);
     history.on('value', function(snapshot) {
       var historyValues = snapshotToArray(snapshot).reverse();
       countSpinsSinceZero = historyValues.findIndex(function (element) {
@@ -42,19 +48,14 @@ const TO_MOBILENUMBER = '+61412746478';
           + 'The last number was ' + historyValues[0] +'.\n'
           + 'To check visit http://csgofast.com/game/double');
     });
-
     function snapshotToArray(snapshot) {
       var returnArr = [];
-
       snapshot.forEach(function(childSnapshot) {
         var item = childSnapshot.val();
         item.key = childSnapshot.key;
-
         returnArr.push(item);
       });
-
       return returnArr;
-
     };
 
     const RAFFLE_RESULT_SELECTOR = '.bonus-game-end';
@@ -65,13 +66,14 @@ const TO_MOBILENUMBER = '+61412746478';
           if (mutation.addedNodes.length) {
             let raffleResult = mutation.addedNodes[0].data;
             console.log(raffleResult);
-            this.database.ref('/history').push(raffleResult);
+            currentTime().then(function(value) {
+                firebase.database().ref('/history').child(value).set(raffleResult);
+            });
           }
         }
       }
     };
     var observer = new MutationObserver(onMutate);
-    observer.database = firebase.database();
     observer.observe(item, {childList: true});
   });
   //await browser.close();

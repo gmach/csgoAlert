@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^1.11.0",
-    "Telstra_Messaging": "github:Telstra/MessagingAPI-SDK-node"
+    "Telstra_Messaging": "github:Telstra/MessagingAPI-SDK-node",
+    "moment-timezone": "^0.5.23",
+    "puppeteer": "^1.11.0"
   }
 }
