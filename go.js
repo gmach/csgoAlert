@@ -39,7 +39,7 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
       })
       if (countSpinsSinceZero == -1)
           countSpinsSinceZero = historyValues.length;
-      database.ref('numberSpinsSinceZero').set(countSpinsSinceZero);
+      database.ref('countSpinsSinceZero').set(countSpinsSinceZero);
       if (countSpinsSinceZero != 0 && countSpinsSinceZero % SPINS_ALERT_FREQ == 0)
         sms('**** Alert for CSGOFAST.COM ****\n'
           + countSpinsSinceZero + ' spins since last green 0.\n'
