@@ -6,7 +6,7 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
 
 (async () => {
 
-  const browser = await PUPPETEER.launch({headless: false});
+  const browser = await PUPPETEER.launch({headless: true});
   const page = await browser.newPage();
   //page.on('console', msg => console.log(msg.text()));
   await page.goto('https://csgofast.com/game/double', {waitUntil: 'load', timeout: 0});
@@ -18,7 +18,7 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
     return MOMENT_TIMEZONE().tz(CURRENT_TIMEZONE).format('h:mm:ss a');
   });
   await page.evaluate(() => {
-    debugger;
+    //debugger;
     const SPINS_ALERT_FREQ = 15;
     const FBCONFIG = {
       apiKey: "AIzaSyBLm7YgDBKQm3DM3Thxo-mm0k5ZHkNLe4Q",
