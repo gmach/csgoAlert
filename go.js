@@ -6,7 +6,7 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
 
 (async () => {
 
-  const browser = await PUPPETEER.launch({headless: true});
+  const browser = await PUPPETEER.launch({headless: false});
   const page = await browser.newPage();
   //page.on('console', msg => console.log(msg.text()));
   await page.goto('https://csgofast.com/game/double', {waitUntil: 'load', timeout: 0});
@@ -18,8 +18,8 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
     return MOMENT_TIMEZONE().tz(CURRENT_TIMEZONE).format('h:mm:ss a');
   });
   await page.evaluate(() => {
-    //debugger;
-    const SPINS_ALERT_FREQ = 10;
+    debugger;
+    const SPINS_ALERT_FREQ = 15;
     const FBCONFIG = {
       apiKey: "AIzaSyBLm7YgDBKQm3DM3Thxo-mm0k5ZHkNLe4Q",
       authDomain: "csgochecker-efc38.firebaseapp.com",
@@ -29,19 +29,17 @@ const CURRENT_TIMEZONE = 'Australia/Brisbane';
       messagingSenderId: "234138437129"
     };
     firebase.initializeApp(FBCONFIG);
-    var countSpinsSinceZero = 0;
     var database = firebase.database();
     var history = database.ref('/history');
     database.ref('history').set(null);
     history.on('value', function(snapshot) {
       var historyValues = snapshotToArray(snapshot).reverse();
-      countSpinsSinceZero = historyValues.findIndex(function (element) {
+      var countSpinsSinceZero = countSpinsSinceZero = historyValues.findIndex(function (element) {
         return element == 0;
       })
-      if (countSpinsSinceZero>-1)
-        database.ref('numberSpinsSinceZero').set(countSpinsSinceZero);
-      else
-        database.ref('numberSpinsSinceZero').set(historyValues.length);
+      if (countSpinsSinceZero == -1)
+          countSpinsSinceZero = historyValues.length;
+      database.ref('numberSpinsSinceZero').set(countSpinsSinceZero);
       if (countSpinsSinceZero != 0 && countSpinsSinceZero % SPINS_ALERT_FREQ == 0)
         sms('**** Alert for CSGOFAST.COM ****\n'
           + countSpinsSinceZero + ' spins since last green 0.\n'
