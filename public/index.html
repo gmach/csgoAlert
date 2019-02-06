@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CSGO Alert Service</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+        .form {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+    </style>
+
+</head>
+<body class="text-center">
+<form class="form" action="/start" method="POST" onSubmit="return showSpinner();">
+    <h1 class="h3 mb-3 font-weight-normal">CSGO Alert Report</h1>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="mobile">Mobile Number</label>
+            <input type="text" pattern="^\d{10}$" title="Please enter 10 digits for mobile number" size=10 class="form-control" name="mobile" id="mobile" placeholder="" value="" required="">
+            <div class="invalid-feedback">
+                Mobile Number is required.
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="freq">Frequency</label>
+            <input type="number" size=2 min="1" max="99" class="form-control" name="freq" id="freq" placeholder="" value="" required="">
+            <div class="invalid-feedback">
+                Frequency is required.
+            </div>
+        </div>
+    </div>
+    <button id="start-button" class="btn btn-primary" type="submit">
+        <span class="spinner-border spinner-border-sm" style="display: none"></span>
+        START
+    </button>
+</form>
+<script>
+    function showSpinner() {
+        var spinner = document.getElementsByClassName('spinner-border')[0];
+        spinner.style.display = 'inline-block';
+        document.getElementById('start-button').disabled = true;
+        return true;
+    }
+</script>
+</body>
+</html>

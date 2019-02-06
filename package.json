@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "Telstra_Messaging": "github:Telstra/MessagingAPI-SDK-node",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "firebase": "^5.8.2",
     "moment-timezone": "^0.5.23",
     "puppeteer": "^1.11.0"
   }
