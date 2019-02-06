@@ -23,11 +23,18 @@
             padding: 15px;
             margin: auto;
         }
-        .results span {
-            margin-right: 10px;
+        .spinResult {
+            width: 50%;
+            margin: 0 auto;
         }
-        #stop-button {
-            margin-bottom: 1rem;
+        .spinResults span {
+            margin-right: 50px;
+        }
+        .spinTime {
+            text-align: left;
+        }
+        .greenResult {
+            background-color: green;
         }
     </style>
 
@@ -35,9 +42,10 @@
 <body class="text-center">
 <form class="form" action="/stop" method="POST">
     <h1 class="h3 mb-3 font-weight-normal">CSGO Alert Report</h1>
+    <h2 class="alert-danger" style="display: none">Error </h2>
     <button id="stop-button" class="btn btn-primary" type="submit">STOP</button>
 </form>
-<div class="results"></div>
+<div class="spinResults"></div>
 <script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
 <script src="main.js"></script>
 </body>

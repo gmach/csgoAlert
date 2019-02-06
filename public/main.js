@@ -11,14 +11,16 @@ var config = {
 firebase.initializeApp(config);
 
 function createElement(id, value) {
-  var span = document.createElement('span');
-    span.innerHTML = '<span id="id_' + id + '">' + value + '</span>';
-  return span.firstChild;
+  var div = document.createElement('div');
+  div.innerHTML = "<div class='spinResult" +
+      (value == "0"? " greenResult":"") +
+      "' id='id_" + id + "'><span class='spinTime'>" + id + "</span><span class='spinValue'>" + value + "</span></div>";
+  return div.firstChild;
 }
 
 window.addEventListener('load', function() {
     var ref = firebase.database().ref('history').limitToLast(100);
-    var results = document.getElementsByClassName('results')[0];
+    var results = document.getElementsByClassName('spinResults')[0];
     ref.on('child_added', function(data) {
         results.insertBefore(createElement(data.key, data.val()), results.firstChild);
     });
@@ -28,6 +30,18 @@ window.addEventListener('load', function() {
     });
     ref.on('child_removed', function(data) {
         var element = document.getElementById('id_' + data.key);
-        element.parentElement.removeChild(postElement);
+        element.parentElement.removeChild(element);
     });
+    var errorParam = get('error');
+    if (errorParam != null) {
+        var error = document.getElementsByClassName('alert-danger')[0];
+        error.textContent = errorParam;
+        error.style.display = 'block';
+    }
+    function get(name){
+        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
 }, false);
+
+
