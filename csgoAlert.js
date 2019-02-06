@@ -40,7 +40,8 @@ module.exports = async function (mobile, freq, callback) {
         });
         return returnArr;
     };
-    const browser = await PUPPETEER.launch({headless: true});
+    const browser = await PUPPETEER.launch({args: ['--no-sandbox'],
+        headless: true});
     const page = await browser.newPage();
     //page.on('console', msg => console.log(msg.text()));
     await page.goto('https://csgofast.com/game/double', {waitUntil: 'load', timeout: 0});
