@@ -7,7 +7,7 @@ const app = express()
 
 // create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
+const PORT = 80;
 let isRunning = false;
 let browser;
 
@@ -43,9 +43,9 @@ app.post('/stop', async (req, res) => {
     res.redirect('/');
 })
 
-app.listen(80, function (err) {
+app.listen(PORT, function (err) {
     if (err) {
         throw err
     }
-    console.log('Server started on port 80')
+    console.log('Server started on port ' + PORT);
 })
