@@ -43,7 +43,7 @@ module.exports = async function (mobile, freq, callback) {
     const browser = await PUPPETEER.launch({args: ['--no-sandbox'],
         headless: true});
     const page = await browser.newPage();
-    page.on('console', msg => console.log(msg.text()));
+    //page.on('console', msg => console.log(msg.text()));
     await page.goto('https://csgofast.com/game/double', {waitUntil: 'load', timeout: 0});
     const RAFFLE_RESULT_SELECTOR = '.bonus-game-end';
     await page.waitForSelector(RAFFLE_RESULT_SELECTOR);
