@@ -1,6 +1,6 @@
 const PUPPETEER = require('puppeteer');
 const FIREBASE = require("firebase");
-const SMS = new (require('./sms'));
+const SMS = new require('./sms');
 const MOMENT_TIMEZONE = require('moment-timezone');
 const CURRENT_TIMEZONE = 'Australia/Brisbane';
 const FBCONFIG = {
