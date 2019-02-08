@@ -1,5 +1,4 @@
 const PUPPETEER = require('puppeteer');
-const SMS = require('./sms');
 const FIREBASE = require("firebase");
 const MOMENT_TIMEZONE = require('moment-timezone');
 const CURRENT_TIMEZONE = 'Australia/Brisbane';
@@ -26,6 +25,7 @@ module.exports = async function (mobile, freq, callback) {
             countSpins = historyValues.length;
         database.ref('countSpins').set(countSpins);
         if (countSpins != 0 && countSpins % freq == 0)
+            const SMS = new (require('./sms'));
             SMS(mobile, '**** Alert for CSGOFAST.COM ****\n'
                 + countSpins + ' spins since last green 0.\n'
                 + 'The last number was ' + historyValues[0] +'.\n'
