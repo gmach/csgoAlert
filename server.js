@@ -7,7 +7,7 @@ const app = express()
 
 // create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
-const PORT = 80;
+const PORT = 3000;
 let isRunning = false;
 let browser;
 

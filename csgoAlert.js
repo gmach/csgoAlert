@@ -43,15 +43,23 @@ module.exports = async function (mobile, freq, callback) {
     const browser = await PUPPETEER.launch({args: ['--no-sandbox'],
         headless: true});
     const page = await browser.newPage();
-    //page.on('console', msg => console.log(msg.text()));
+    page.on('console', msg => console.log(msg.text()));
     await page.goto('https://csgofast.com/game/double', {waitUntil: 'load', timeout: 0});
+    const RAFFLE_RESULT_SELECTOR = '.bonus-game-end';
+    await page.waitForSelector(RAFFLE_RESULT_SELECTOR);
     //await page.addScriptTag({ url: 'https://www.gstatic.com/firebasejs/5.8.0/firebase.js'});
     await page.exposeFunction('setResult', result => {
         const currentTime = MOMENT_TIMEZONE().tz(CURRENT_TIMEZONE).format('h:mm:ss a');
         history.child(currentTime).set(result);
+        console.log(result);
+        if (result == '0') {
+            SMS(mobile, '**** Alert for CSGOFAST.COM ****\n'
+                + 'It just hit 0!\n'
+                + 'To check visit http://csgofast.com/game/double');
+        }
     });
     try {
-        await page.evaluate(() => {
+        await page.evaluate(() => {  // This scope is within browser window not node!
             //debugger;
             const RAFFLE_RESULT_SELECTOR = '.bonus-game-end';
             let item = document.querySelector(RAFFLE_RESULT_SELECTOR);
@@ -60,7 +68,6 @@ module.exports = async function (mobile, freq, callback) {
                     if (mutation.type == 'childList') {
                         if (mutation.addedNodes.length) {
                             let raffleResult = mutation.addedNodes[0].data;
-                            console.log(raffleResult);
                             setResult(raffleResult);
                         }
                     }
