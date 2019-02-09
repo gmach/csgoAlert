@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 app.post('/start', urlencodedParser, (req, res) => {
     if (isRunning) {
-        res.redirect('/progress.html');
+        res.redirect('/progress.html?error=Already%20Running!');
         return;
     }
     let mobile = req.body.mobile;
