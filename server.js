@@ -9,7 +9,7 @@ const app = express()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 const PORT = 3000;
 let isRunning = false;
-let browser;
+
 
 //app.get('/', (req, res) =>  res.sendFile(`${__dirname}/index.html`));
 app.use(express.static('public'));
@@ -22,12 +22,11 @@ app.post('/start', urlencodedParser, (req, res) => {
     let mobile = req.body.mobile;
     if (/^\d{10}$/.test(mobile)) {
         const freq = req.body.freq;
-        csgoAlert(mobile, freq, function(err, data) {
+        csgoAlert.start(mobile, freq, function(err) {
             if (err) {
                 console.log("ERROR! " + err.stack);
                 return res.redirect('/progress.html?error=' + err.message);
             }
-            browser = data;
             res.redirect('/progress.html');
             isRunning = true;
         })
@@ -38,8 +37,7 @@ app.post('/start', urlencodedParser, (req, res) => {
 
 app.post('/stop', async (req, res) => {
     isRunning = false;
-    if (browser != undefined)
-        await browser.close();
+    csgoAlert.stop();
     res.redirect('/');
 })
 
