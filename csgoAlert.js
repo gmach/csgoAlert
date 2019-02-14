@@ -30,8 +30,8 @@ module.exports = {
                 database.ref('countSpins').set(countSpins);
                 if (countSpins != 0 && countSpins % freq == 0)
                     SMS(mobile, '**** Alert for CSGOFAST.COM ****\n'
-                        + countSpins + ' spins since last green 0.\n'
-                        + 'The last number was ' + historyValues[0] + '.\n'
+                        + `${countSpins} spins since last green 0.\n`
+                        + `The last number was ${historyValues[0]}.\n`
                         + 'To check visit http://csgofast.com/game/double');
             });
 
